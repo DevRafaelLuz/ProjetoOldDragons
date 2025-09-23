@@ -16,7 +16,7 @@ app = Flask(__name__)
 def home():
     return render_template('index.html')
 
-@app.route('/criacao-personagem', methods=['GET', 'POST'])
+@app.route('/personagem', methods=['GET', 'POST'])
 def criacao_personagem():
     estilo = ''
     nome = ''
