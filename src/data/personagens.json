@@ -1,0 +1,20 @@
+[
+  {
+    "nome": "Magnum",
+    "estilo": "heroico",
+    "raca": "humano",
+    "classe": "guerreiro",
+    "atributos": {
+      "forca": "14",
+      "destreza": "12",
+      "constituicao": "14",
+      "inteligencia": "13",
+      "sabedoria": "13",
+      "carisma": "9"
+    },
+    "habilidades": [
+      "Aprendizado",
+      "Adaptabilidade"
+    ]
+  }
+]

@@ -10,7 +10,27 @@ from models.racas.Anao import Anao
 from models.racas.Gnomo import Gnomo
 from models.racas.Halfling import Halfling
 
+import json
+import os
+
 app = Flask(__name__)
+
+def salvar_personagem_json(personagem, caminho = os.path.join(os.getcwd(), 'src', 'data', 'personagens.json')):
+    os.makedirs(os.path.dirname(caminho), exist_ok=True)
+
+    if os.path.exists(caminho):
+        with open(caminho, 'r', encoding='utf-8') as f:
+            try:
+                dados = json.load(f)
+            except json.JSONDecodeError:
+                dados = []
+    else:
+        dados = []
+
+    dados.append(personagem)
+
+    with open(caminho, 'w', encoding='utf-8') as f:
+        json.dump(dados, f, ensure_ascii=False, indent=2)
 
 @app.route('/')
 def home():
@@ -51,7 +71,6 @@ def criacao_personagem():
                 for nome_atributo in nomes:
                     atributos[nome_atributo] = request.form.get(nome_atributo)
 
-            # Instanciar a raça
             raca_obj = None
             if raca == 'humano':
                 raca_obj = Humano()
@@ -72,9 +91,10 @@ def criacao_personagem():
                 'raca': raca,
                 'classe': classe,
                 'atributos': atributos,
-                'habilidades': raca_obj.habilidades if raca_obj else []
+                'habilidades': list(raca_obj.habilidades) if raca_obj else []
             }
 
+            salvar_personagem_json(personagem_criado)
 
     return render_template('criacao_personagem.html', estilo=estilo, nome=nome, raca=raca, classe=classe,
             valores_rolados=valores_rolados, bloquear_campos=bloquear_campos, personagem_criado=personagem_criado
